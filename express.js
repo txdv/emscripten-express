@@ -20,11 +20,11 @@ var library = {
 		context.listen(port);
 	},
 	express_post: function(context, route, callback) {
-		console.log(context);
-		console.log(route);
-		console.log(callback);
-		Runtime.dynCall('vii', callback, [1, 2]);
-		console.log(Module.cwrap(callback, 'number', ['number', 'number']));
+		var cb = function (req, res) {
+			Runtime.dynCall('vii', callback, [1, 2]);
+		};
+		context = EXPRESS.contexts[context];
+		context.post(route, cb);
 	},
 	exit: function(status) {
 		process.exit(status);
